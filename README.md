@@ -4,11 +4,13 @@ A lightweight command-line journal app. Write, view, edit, and delete journal en
 
 ## Features
 
-- Create journal entries with a title and content
-- List all entries
+- Create journal entries with a title and content (or pipe content from stdin)
+- List all entries with creation dates
+- Filter list to N most recent entries
 - View entries with Markdown rendering in the terminal
 - Append to or overwrite existing entries
-- Delete entries
+- Delete entries with a confirmation prompt
+- Search across titles and entry content
 
 ## Requirements
 
@@ -57,10 +59,23 @@ npm link
 journal add -t "My Title" -c "Today I learned..."
 ```
 
+Content can also be piped from stdin:
+
+```bash
+echo "My entry" | journal add -t "My Title"
+cat notes.md | journal add -t "From file"
+```
+
 ### List all entries
 
 ```bash
 journal list
+```
+
+Show only the N most recent entries:
+
+```bash
+journal list -n 5
 ```
 
 ### View an entry
@@ -87,11 +102,21 @@ journal edit --id <id> -c "Replacement content" --overwrite
 journal delete --id <id>
 ```
 
+You will be prompted to confirm before the entry is removed.
+
+### Search entries
+
+```bash
+journal search -q "keyword"
+```
+
+Matches against both titles and entry content.
+
 ## Project Structure
 
 ```
 src/
-  index.ts    # CLI commands (add, list, view, edit, delete)
+  index.ts    # CLI commands (add, list, view, edit, delete, search)
   journal.ts  # Journal CRUD logic
   db.ts       # JSON database read/write
   types.ts    # TypeScript interfaces

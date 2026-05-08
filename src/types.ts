@@ -2,6 +2,8 @@ export interface Journal {
   id: number;
   title: string;
   filename: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DB {
